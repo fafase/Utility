@@ -1,0 +1,15 @@
+{
+	"version" : "1.0.0",
+	"locale" : "fr-FR",
+	"appName" : "NomDuJeu",
+	"GENERIC" : 
+	{
+		"settings": "Paramètres",
+		"loading" : "Chargement"
+	},
+	"EVENTS" : 
+	{
+		"eventName" : "Nom évènement",
+		"description" : "Voici une description de cet évènement"
+	}
+}

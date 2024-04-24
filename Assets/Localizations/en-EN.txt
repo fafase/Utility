@@ -1,0 +1,15 @@
+{
+    "version": "1.0.0",
+    "locale": "en-EN",
+    "appName": "GameName",
+    "GENERIC": {
+        "settings": "Settings",
+        "loading": "Loading"
+    },
+    "EVENTS": {
+        "eventName": "EventName",
+        "description": "Here is the description of the event",
+        "score" : "Score {playerScore}, well done {name}!",
+        "otherFormat" : "{test} here"
+    }
+}
