@@ -2,9 +2,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace Tools
 {
@@ -50,6 +48,7 @@ namespace Tools
         {
             m_init = true;
             SetDefault();
+            SetWithLocale(Application.systemLanguage.ToString());
             return new InitializationResult(true, GetType().Name);
         }
 
@@ -167,17 +166,6 @@ namespace Tools
                 }
             }
         }
-        //public string FormatLocalizations(string input, List<LocArgument> formats) 
-        //{
-        //    string result = input;
-        //    foreach(LocArgument locFormat in formats) 
-        //    {
-        //        string search = "{" + locFormat.name + "}";
-        //        string value = string.IsNullOrEmpty(locFormat.value) ? "{ }" : locFormat.value;
-        //        result = result.Replace(search, value);
-        //    }
-        //    return result;
-        //}
 
         public string DefaultJson => m_defaultLocalization?.text;
 
