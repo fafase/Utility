@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace Tools
 {
-    // - Show on inspector
-    // - Opening windows with all entries
-    // - Select entries
     [CreateAssetMenu(fileName = "Localizer", menuName = "Tools/Localizer")]
     public class Localization : ScriptableObject, IInit, ILocalization
     {
@@ -22,7 +20,7 @@ namespace Tools
         private const string s_locale = "locale";
 
         private bool m_init;
-        bool ILocalization.IsInit 
+        bool ILocalization.IsInit
         {
             get { return m_init; }
             set { m_init = value; }
@@ -30,7 +28,22 @@ namespace Tools
         bool IInit.IsInit => m_init;
 
         private JObject m_jsonLocalization;
-        public string[] Localizations => m_localizations.Select(loca => loca.name).ToArray();
+        public string[] Localizations
+        {
+            get
+            {
+                List<string> localizations = new List<string>();
+                foreach (TextAsset ta in m_localizations) 
+                {
+                    if (ta == null) 
+                    {
+                        continue;
+                    }
+                    localizations.Add(ta.name);
+                }
+                return localizations.ToArray();
+            }
+        }
         public bool ShouldWaitForCompletion => throw new System.NotImplementedException();
 
         public InitializationResult Init()
@@ -88,7 +101,9 @@ namespace Tools
             return result;
         }
 
-        public string GetLocalization(string key, string defaultValue = null)
+        public string GetLocalization(string key, string defaultValue = null) => GetLocalization(key, null, defaultValue);
+
+        public string GetLocalization(string key, List<LocArgument> formats, string defaultValue = null)
         {
             if (!m_init) 
             {
@@ -101,19 +116,29 @@ namespace Tools
             }
             string[] paths = key.Split(new char[] { '/' });
             try { 
-                JToken result = m_jsonLocalization[paths[0]];
+                JToken token = m_jsonLocalization[paths[0]];
                 for(int i = 1; i < paths.Length; ++i) 
                 {
-                    result = result[paths[i]];
+                    token = token[paths[i]];
                 }
-                return result.ToString();
+                string result = token.ToString();
+                if (formats != null && formats.Count > 0)
+                {
+                    foreach (LocArgument locFormat in formats)
+                    {
+                        string search = "{" + locFormat.name + "}";
+                        string value = string.IsNullOrEmpty(locFormat.value) ? "{ }" : locFormat.value;
+                        result = result.Replace(search, value);
+                    }
+                }
+                return result;
             }
             catch (Exception e)
             {
                 Debug.LogWarning($"[Localization] Could not retrieve item {key}\n{e.Message}");
             }
-            return defaultValue;
 
+            return defaultValue;
         }
 
         public void SetLocalizationFromRemote(List<string> localizations) 
@@ -142,17 +167,17 @@ namespace Tools
                 }
             }
         }
-        public string FormatLocalizations(string input, List<LocArgument> formats) 
-        {
-            string result = input;
-            foreach(LocArgument locFormat in formats) 
-            {
-                string search = "{" + locFormat.name + "}";
-                string value = string.IsNullOrEmpty(locFormat.value) ? "{ }" : locFormat.value;
-                result = result.Replace(search, value);
-            }
-            return result;
-        }
+        //public string FormatLocalizations(string input, List<LocArgument> formats) 
+        //{
+        //    string result = input;
+        //    foreach(LocArgument locFormat in formats) 
+        //    {
+        //        string search = "{" + locFormat.name + "}";
+        //        string value = string.IsNullOrEmpty(locFormat.value) ? "{ }" : locFormat.value;
+        //        result = result.Replace(search, value);
+        //    }
+        //    return result;
+        //}
 
         public string DefaultJson => m_defaultLocalization?.text;
 
@@ -161,8 +186,7 @@ namespace Tools
     [Serializable]
     public class LocArgument 
     {
-        public string name;
-        public string value;
+        public string name, value;
 
         public LocArgument(string name, string value)
         {
@@ -205,20 +229,18 @@ namespace Tools
         string GetLocalization(string key, string defaultValue = null);
 
         /// <summary>
+        /// Get the localization string for the given key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="formats"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        string GetLocalization(string key, List<LocArgument> formats, string defaultValue = null);
+        /// <summary>
         /// Reset the localization json list from remote content
         /// </summary>
         /// <param name="localizations"></param>
         void SetLocalizationFromRemote(List<string> localizations);
-
-        /// <summary>
-        /// Format the string with LocFormat list. 
-        /// LocFormat provides the section of the string to replace and the replacement
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="formats"></param>
-        /// <returns></returns>
-        string FormatLocalizations(string input, List<LocArgument> formats);
-
 
         /// <summary>
         /// Get the json of the default localization

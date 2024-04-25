@@ -427,7 +427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1538440510}
   - component: {fileID: 1538440512}
-  - component: {fileID: 1538440511}
+  - component: {fileID: 1538440513}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -454,7 +454,15 @@ RectTransform:
   m_AnchoredPosition: {x: -389.8, y: -143}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1538440511
+--- !u!222 &1538440512
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538440509}
+  m_CullTransparentMesh: 1
+--- !u!114 &1538440513
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -474,7 +482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GameName
+  m_text: Reset here
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -543,18 +551,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-  m_localizationKey: appName
+  m_localizer: {fileID: 11400000, guid: ceab107f696f3c54fbe946c4d22cd82b, type: 2}
+  m_localizationKey: EVENTS/otherFormat
   m_arguments:
   - name: test
-    value: New text
---- !u!222 &1538440512
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538440509}
-  m_CullTransparentMesh: 1
+    value: Reset
 --- !u!1 &1624265149
 GameObject:
   m_ObjectHideFlags: 0

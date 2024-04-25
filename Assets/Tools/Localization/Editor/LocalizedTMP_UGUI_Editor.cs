@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro.EditorUtilities;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
@@ -14,6 +15,7 @@ namespace Tools
     {
         private SerializedProperty m_localizationKey;
         private SerializedProperty m_arguments;
+        private SerializedProperty m_text;
         private string [] m_languages; 
         private int m_languageIndex = 0;
         private ILocalization m_localizer;
@@ -23,6 +25,7 @@ namespace Tools
             base.OnEnable();
             m_localizationKey = serializedObject.FindProperty("m_localizationKey");
             m_arguments = serializedObject.FindProperty("m_arguments");
+            m_text = serializedObject.FindProperty("m_text");
 
             m_localizer = Tools.EditorUtility.LoadScriptableObject<Localization>();
             m_localizer.InitLocalizer();
@@ -43,6 +46,11 @@ namespace Tools
             }
             EditorGUILayout.PropertyField(m_localizationKey);
             EditorGUILayout.PropertyField(m_arguments);
+            if(EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+                SetText();
+            }
             EditorGUILayout.Space(10);
             if (GUILayout.Button("Select localization"))
             {
@@ -53,20 +61,22 @@ namespace Tools
             serializedObject.ApplyModifiedProperties();
             base.OnInspectorGUI();
         }
-
+        public override bool RequiresConstantRepaint()
+        {
+            return true;
+        }
         public void SetText() 
         {
             LocalizedTMP_UGUI targetComp = (LocalizedTMP_UGUI)target;
-            string value = targetComp.LocalizationKey;
-            targetComp.text = m_localizer.GetLocalization(value);
+            m_text.stringValue = m_localizer.GetLocalization(targetComp.LocalizationKey, targetComp.Arguments.ToList());
+            serializedObject.ApplyModifiedProperties();
         }
 
         public void SetTextWithKey(string value) 
         {
             m_localizationKey.stringValue = value;
             serializedObject.ApplyModifiedProperties();
-            LocalizedTMP_UGUI targetComp = (LocalizedTMP_UGUI)target;
-            targetComp.text = m_localizer.GetLocalization(value);
+            SetText();
         }
     }
     
