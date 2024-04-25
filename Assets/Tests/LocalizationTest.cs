@@ -109,25 +109,23 @@ public class LocalizationTest
         m_localization.SetWithLocale("en-EN");
 
         List<LocArgument> locFormats = new List<LocArgument>()
-        { 
+        {
             new LocArgument("playerScore", 1555.ToString()),
-            new LocArgument("name", "Jeff") 
+            new LocArgument("name", "Jeff")
         };
-        string input = m_localization.GetLocalization("EVENTS/score");
-        string resultScore = m_localization.FormatLocalizations(input, locFormats);
+        string resultScore = m_localization.GetLocalization("EVENTS/score", locFormats);
+
         locFormats = new List<LocArgument>()
         {
             new LocArgument("test", "This is a test")
         };
-        input = m_localization.GetLocalization("EVENTS/otherFormat");
-        string resultTest = m_localization.FormatLocalizations(input, locFormats);
+        string resultTest = m_localization.GetLocalization("EVENTS/otherFormat", locFormats);
 
         locFormats = new List<LocArgument>()
         {
             new LocArgument("test", "")
         };
-        input = m_localization.GetLocalization("EVENTS/otherFormat");
-        string resultMissing = m_localization.FormatLocalizations(input, locFormats);
+        string resultMissing = m_localization.GetLocalization("EVENTS/otherFormat", locFormats);
 
         Assert.AreEqual("Score 1555, well done Jeff!", resultScore);
         Assert.AreEqual("This is a test here", resultTest);

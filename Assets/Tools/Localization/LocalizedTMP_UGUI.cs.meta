@@ -3,7 +3,18 @@ guid: 0d575c6b1d1737c44b4dae5c4eede667
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_Material: {instanceID: 0}
+  - m_fontAsset: {instanceID: 0}
+  - m_sharedMaterial: {instanceID: 0}
+  - m_fontMaterial: {instanceID: 0}
+  - m_fontColorGradientPreset: {instanceID: 0}
+  - m_spriteAsset: {instanceID: 0}
+  - m_StyleSheet: {instanceID: 0}
+  - m_linkedTextComponent: {instanceID: 0}
+  - parentLinkedComponent: {instanceID: 0}
+  - m_baseMaterial: {instanceID: 0}
+  - m_localizer: {fileID: 11400000, guid: ceab107f696f3c54fbe946c4d22cd82b, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

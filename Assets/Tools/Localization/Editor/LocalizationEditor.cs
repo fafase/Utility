@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace Tools
 {
-    [CustomEditor(typeof(Localization))]
-    public class LocalizationEditor : Editor 
-    {
+    //[CustomEditor(typeof(Localization))]
+    //public class LocalizationEditor : Editor 
+    //{
 
-        void OnEnable () { }
+    //    void OnEnable () { }
 
-        public override void OnInspectorGUI ()
-        {
-        }
-    }
+    //    public override void OnInspectorGUI ()
+    //    {
+    //    }
+    //}
 }
