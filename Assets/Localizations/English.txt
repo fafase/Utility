@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "locale": "en-EN",
+    "locale": "English",
     "appName": "GameName",
     "GENERIC": {
         "settings": "Settings",

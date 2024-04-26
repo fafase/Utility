@@ -14,7 +14,6 @@ namespace Tools
 
         public string Locale { get; private set; }
 
-        private const string ENGLISH = "en-EN";
         private const string s_locale = "locale";
 
         private bool m_init;
@@ -48,7 +47,12 @@ namespace Tools
         {
             m_init = true;
             SetDefault();
-            SetWithLocale(Application.systemLanguage.ToString());
+            string locale = PlayerPrefs.GetString("PPLocale", null);
+            if (string.IsNullOrEmpty(locale)) 
+            {
+                locale = Application.systemLanguage.ToString();
+            }
+            SetWithLocale(locale);
             return new InitializationResult(true, GetType().Name);
         }
 
@@ -97,6 +101,7 @@ namespace Tools
                 m_jsonLocalization = JObject.Parse(json);
                 SetLocale();
             }
+            PlayerPrefs.SetString("PPLocale", locale);
             return result;
         }
 
