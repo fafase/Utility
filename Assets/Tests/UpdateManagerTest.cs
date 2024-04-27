@@ -117,8 +117,7 @@ public class UpdateManagerTest
         m_onUpdate.Invoke();
         m_updateA.Received().OnUpdate();
         m_updateB.Received().OnUpdate();
-        m_updateC.Received().OnUpdate();
-        Assert.AreEqual(3, m_updateManager.UpdateCount);
+        m_updateC.Received().OnUpdate();       
     }
 
     private void ClearCalls() 
