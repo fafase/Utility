@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Tools
 {
@@ -25,23 +26,9 @@ namespace Tools
         bool IInit.IsInit => m_init;
 
         private JObject m_jsonLocalization;
-        public string[] Localizations
-        {
-            get
-            {
-                List<string> localizations = new List<string>();
-                foreach (TextAsset ta in m_localizations) 
-                {
-                    if (ta == null) 
-                    {
-                        continue;
-                    }
-                    localizations.Add(ta.name);
-                }
-                return localizations.ToArray();
-            }
-        }
-        public bool ShouldWaitForCompletion => throw new System.NotImplementedException();
+        public string[] Localizations => m_localizations.Select(loc => loc.name).ToArray();
+
+        public bool ShouldWaitForCompletion => false;
 
         public InitializationResult Init()
         {
