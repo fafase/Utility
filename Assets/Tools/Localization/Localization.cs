@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Tools
 {
@@ -14,7 +15,6 @@ namespace Tools
 
         public string Locale { get; private set; }
 
-        private const string ENGLISH = "en-EN";
         private const string s_locale = "locale";
 
         private bool m_init;
@@ -26,29 +26,20 @@ namespace Tools
         bool IInit.IsInit => m_init;
 
         private JObject m_jsonLocalization;
-        public string[] Localizations
-        {
-            get
-            {
-                List<string> localizations = new List<string>();
-                foreach (TextAsset ta in m_localizations) 
-                {
-                    if (ta == null) 
-                    {
-                        continue;
-                    }
-                    localizations.Add(ta.name);
-                }
-                return localizations.ToArray();
-            }
-        }
-        public bool ShouldWaitForCompletion => throw new System.NotImplementedException();
+        public string[] Localizations => m_localizations.Select(loc => loc.name).ToArray();
+
+        public bool ShouldWaitForCompletion => false;
 
         public InitializationResult Init()
         {
             m_init = true;
             SetDefault();
-            SetWithLocale(Application.systemLanguage.ToString());
+            string locale = PlayerPrefs.GetString("PPLocale", null);
+            if (string.IsNullOrEmpty(locale)) 
+            {
+                locale = Application.systemLanguage.ToString();
+            }
+            SetWithLocale(locale);
             return new InitializationResult(true, GetType().Name);
         }
 
@@ -97,6 +88,7 @@ namespace Tools
                 m_jsonLocalization = JObject.Parse(json);
                 SetLocale();
             }
+            PlayerPrefs.SetString("PPLocale", locale);
             return result;
         }
 

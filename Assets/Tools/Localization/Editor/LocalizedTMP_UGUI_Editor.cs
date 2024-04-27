@@ -61,18 +61,16 @@ namespace Tools
             serializedObject.ApplyModifiedProperties();
             base.OnInspectorGUI();
         }
-        public override bool RequiresConstantRepaint()
-        {
-            return true;
-        }
+
         public void SetText() 
         {
             LocalizedTMP_UGUI targetComp = (LocalizedTMP_UGUI)target;
-            m_text.stringValue = m_localizer.GetLocalization(targetComp.LocalizationKey, targetComp.Arguments.ToList());
+            m_text.stringValue = m_localizer.GetLocalization(targetComp.LocalizationKey, targetComp.Arguments?.ToList());
             serializedObject.ApplyModifiedProperties();
+            UnityEditor.EditorUtility.SetDirty(targetComp);
         }
 
-        public void SetTextWithKey(string value) 
+        public void SetLocalization(string value) 
         {
             m_localizationKey.stringValue = value;
             serializedObject.ApplyModifiedProperties();
@@ -82,7 +80,7 @@ namespace Tools
     
     public interface ITMPEditor 
     {
-        void SetTextWithKey(string value);
+        void SetLocalization(string value);
     }
 
     class LocalizationWindow : EditorWindow
@@ -152,7 +150,7 @@ namespace Tools
             if (GUILayout.Button("Select", GUILayout.Width(100)))
             {
                 string str = string.IsNullOrEmpty(parent) ? key : parent + "/" + key;
-                m_tmpEditor.SetTextWithKey(str);
+                m_tmpEditor.SetLocalization(str);
                 this.Close();
             }
             EditorGUILayout.EndHorizontal();

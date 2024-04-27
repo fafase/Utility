@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace Tools
 {
+    [AddComponentMenu("UI/Localized Text UI")]
     public class LocalizedTMP_UGUI : TextMeshProUGUI
     {
         [SerializeField] private Localization m_localizer;
